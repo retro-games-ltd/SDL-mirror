@@ -144,7 +144,13 @@ MALI_VideoInit(_THIS)
     }
     */
     close(fd);
-    system("setterm -cursor off");
+    // Disable cursor
+    fd = open("/sys/class/graphics/fbcon/cursor_blink", O_RDWR, 0);
+    if ( fd >= 0 ) {
+        write(fd, "0\n", 2 );
+        close(fd);
+    }
+    //system("setterm -cursor off");
 
     data->native_display.width = vinfo.xres;
     data->native_display.height = vinfo.yres;
@@ -184,12 +190,17 @@ MALI_VideoQuit(_THIS)
     ioctl(fd, VT_ACTIVATE, 5);
     ioctl(fd, VT_ACTIVATE, 1);
     close(fd);
-    system("setterm -cursor on");
+    // Enable cursor
+    fd = open("/sys/class/graphics/fbcon/cursor_blink", O_RDWR, 0);
+    if ( fd >= 0 ) {
+        write(fd, "1\n", 2 );
+        close(fd);
+    }
+    //system("setterm -cursor on");
 
 #ifdef SDL_INPUT_LINUXEV
     SDL_EVDEV_Quit();
 #endif
-
 }
 
 void
@@ -237,6 +248,9 @@ MALI_CreateWindow(_THIS, SDL_Window * window)
         MALI_VideoQuit(_this);
         return SDL_SetError("mali-fbdev: Can't create EGL window surface");
     }
+
+    /* Setup reference to native window */
+    windowdata->display = &displaydata->native_display;
 
     /* Setup driver data for this window */
     window->driverdata = windowdata;
@@ -296,15 +310,19 @@ MALI_HideWindow(_THIS, SDL_Window * window)
 SDL_bool
 MALI_GetWindowWMInfo(_THIS, SDL_Window * window, struct SDL_SysWMinfo *info)
 {
-    if (info->version.major <= SDL_MAJOR_VERSION) {
+    SDL_WindowData *data = (SDL_WindowData *) window->driverdata;
+
+    if (info->version.major == SDL_MAJOR_VERSION &&
+        info->version.minor == SDL_MINOR_VERSION) {
+        info->subsystem = SDL_SYSWM_MALI;
+        info->info.mali.display = data->display;
+        info->info.mali.surface = data->egl_surface;
         return SDL_TRUE;
     } else {
-        SDL_SetError("application not compiled with SDL %d.%d\n",
-            SDL_MAJOR_VERSION, SDL_MINOR_VERSION);
+        SDL_SetError("Application not compiled with SDL %d.%d",
+                     SDL_MAJOR_VERSION, SDL_MINOR_VERSION);
+        return SDL_FALSE;
     }
-
-    /* Failed to get window manager information */
-    return SDL_FALSE;
 }
 
 /*****************************************************************************/

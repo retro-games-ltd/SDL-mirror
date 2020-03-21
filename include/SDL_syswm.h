@@ -104,6 +104,10 @@ typedef void *EGLSurface;
 #include "SDL_egl.h"
 #endif
 
+#if defined(SDL_VIDEO_DRIVER_MALI)
+#include "SDL_malivideo.h"
+#endif
+
 #include "begin_code.h"
 /* Set up for C function definitions, even when using C++ */
 #ifdef __cplusplus
@@ -126,7 +130,8 @@ typedef enum
     SDL_SYSWM_WINRT,
     SDL_SYSWM_ANDROID,
     SDL_SYSWM_VIVANTE,
-    SDL_SYSWM_OS2
+    SDL_SYSWM_OS2,
+    SDL_SYSWM_MALI
 } SDL_SYSWM_TYPE;
 
 /**
@@ -279,6 +284,13 @@ struct SDL_SysWMinfo
             EGLNativeDisplayType display;
             EGLNativeWindowType window;
         } vivante;
+#endif
+#if defined(SDL_VIDEO_DRIVER_MALI)
+        struct
+        {
+            EGLSurface          surface;         /**< The Mali EGL Surface */
+            Mali_native_window *window;          /**< The Mali window */
+        } mali;
 #endif
 
         /* Make sure this union is always 64 bytes (8 64-bit pointers). */

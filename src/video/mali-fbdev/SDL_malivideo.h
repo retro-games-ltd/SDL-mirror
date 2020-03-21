@@ -37,17 +37,21 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+typedef struct Mali_native_window
+{
+    unsigned short width;
+    unsigned short height;
+} Mali_native_window;
+
 typedef struct SDL_DisplayData
 {
-    struct {
-        unsigned short width;
-        unsigned short height;
-    } native_display;
+    Mali_native_window native_display;
 } SDL_DisplayData;
 
 typedef struct SDL_WindowData
 {
     EGLSurface egl_surface;
+    Mali_native_window *display;
 } SDL_WindowData;
 
 /****************************************************************************/
