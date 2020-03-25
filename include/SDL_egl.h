@@ -29,6 +29,17 @@
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 
+#if defined(SDL_VIDEO_DRIVER_MALI)
+#ifndef MALI_NATIVE_WINDOW_H
+#define MALI_NATIVE_WINDOW_H
+typedef struct Mali_native_window
+{
+    unsigned short width;
+    unsigned short height;
+} Mali_native_window;
+#endif
+#endif
+
 #else /* _MSC_VER */
 
 /* EGL headers for Visual Studio */
@@ -1668,6 +1679,5 @@ EGLAPI EGLuint64NV EGLAPIENTRY eglGetSystemTimeNV (void);
 #endif
 
 #endif /* __eglext_h_ */
-
 
 #endif /* _MSC_VER */

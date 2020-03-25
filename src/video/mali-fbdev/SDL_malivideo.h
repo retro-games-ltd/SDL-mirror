@@ -25,7 +25,7 @@
 #include "../../SDL_internal.h"
 #include "../SDL_sysvideo.h"
 
-#include "SDL_egl.h"
+#include "SDL_egl.h" // Also provides Mali_native_window
 
 #include <EGL/egl.h>
 #include <linux/vt.h>
@@ -37,12 +37,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-typedef struct Mali_native_window
-{
-    unsigned short width;
-    unsigned short height;
-} Mali_native_window;
-
 typedef struct SDL_DisplayData
 {
     Mali_native_window native_display;
@@ -51,7 +45,7 @@ typedef struct SDL_DisplayData
 typedef struct SDL_WindowData
 {
     EGLSurface egl_surface;
-    Mali_native_window *display;
+    Mali_native_window *window;
 } SDL_WindowData;
 
 /****************************************************************************/

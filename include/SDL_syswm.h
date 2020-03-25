@@ -105,7 +105,7 @@ typedef void *EGLSurface;
 #endif
 
 #if defined(SDL_VIDEO_DRIVER_MALI)
-#include "SDL_malivideo.h"
+#include "SDL_egl.h"
 #endif
 
 #include "begin_code.h"

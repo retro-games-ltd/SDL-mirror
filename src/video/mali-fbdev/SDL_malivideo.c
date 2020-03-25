@@ -250,7 +250,7 @@ MALI_CreateWindow(_THIS, SDL_Window * window)
     }
 
     /* Setup reference to native window */
-    windowdata->display = &displaydata->native_display;
+    windowdata->window = &displaydata->native_display;
 
     /* Setup driver data for this window */
     window->driverdata = windowdata;
@@ -315,7 +315,7 @@ MALI_GetWindowWMInfo(_THIS, SDL_Window * window, struct SDL_SysWMinfo *info)
     if (info->version.major == SDL_MAJOR_VERSION &&
         info->version.minor == SDL_MINOR_VERSION) {
         info->subsystem = SDL_SYSWM_MALI;
-        info->info.mali.display = data->display;
+        info->info.mali.window = data->window;
         info->info.mali.surface = data->egl_surface;
         return SDL_TRUE;
     } else {
