@@ -796,7 +796,7 @@ macro(CheckMali)
       set(SDL_VIDEO_DRIVER_MALI 1)
       set(SDL_CFLAGS "${SDL_CFLAGS} -DLINUX -DEGL_API_FB")
       list(APPEND EXTRA_LIBS EGL)
-    endif(HAVE_VIDEO_MALI_EGL_MALI)
+    endif(HAVE_VIDEO_MALI_EGL_FB)
   endif(VIDEO_MALI)
 endmacro(CheckMali)
 
