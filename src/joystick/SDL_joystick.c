@@ -1448,6 +1448,21 @@ int SDL_JoystickGetDeviceIndexFromInstanceID(SDL_JoystickID instance_id)
     return device_index;
 }
 
+/* return the hwid for this index */
+const char * SDL_JoystickGetDeviceHWID(int device_index)
+{
+    SDL_JoystickDriver *driver;
+    const char *hwid = NULL;
+
+    SDL_LockJoysticks();
+    if (SDL_GetDriverAndJoystickIndex(device_index, &driver, &device_index)) {
+        hwid = driver->GetDeviceHWID(device_index);
+    }
+    SDL_UnlockJoysticks();
+
+    return hwid;
+}
+
 SDL_JoystickGUID SDL_JoystickGetGUID(SDL_Joystick * joystick)
 {
     if (!SDL_PrivateJoystickValid(joystick)) {

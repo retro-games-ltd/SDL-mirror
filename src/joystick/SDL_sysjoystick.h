@@ -138,6 +138,9 @@ typedef struct _SDL_JoystickDriver
     /* Function to perform any system-specific joystick related cleanup */
     void (*Quit)(void);
 
+    /* Function to get the hardware-id of a joystick */
+    const char *(*GetDeviceHWID)(int device_index);
+
 } SDL_JoystickDriver;
 
 /* The available joystick drivers */

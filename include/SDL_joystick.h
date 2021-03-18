@@ -145,6 +145,12 @@ extern DECLSPEC int SDLCALL SDL_JoystickGetDevicePlayerIndex(int device_index);
 extern DECLSPEC SDL_JoystickGUID SDLCALL SDL_JoystickGetDeviceGUID(int device_index);
 
 /**
+ *  Return the HWID for the joystick at this index
+ *  This can be called before any joysticks are opened.
+ */
+extern DECLSPEC const char *SDLCALL SDL_JoystickGetDeviceHWID(int device_index);
+
+/**
  *  Get the USB vendor ID of a joystick, if available.
  *  This can be called before any joysticks are opened.
  *  If the vendor ID isn't available this function returns 0.

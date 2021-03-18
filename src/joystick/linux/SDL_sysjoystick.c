@@ -35,6 +35,7 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <linux/joystick.h>
+#include <sys/sysmacros.h>
 
 #include "SDL_assert.h"
 #include "SDL_joystick.h"
@@ -73,6 +74,7 @@ typedef struct SDL_joylist_item
 
     /* Steam Controller support */
     SDL_bool m_bSteamController;
+    char *hwid;   /* 0f34:123e */
 } SDL_joylist_item;
 
 static SDL_joylist_item *SDL_joylist = NULL;
@@ -339,6 +341,9 @@ MaybeAddDevice(const char *path)
          return -1;
     }
 
+    sprintf( namebuf, "%x:%x", major( sb.st_rdev ), minor( sb.st_rdev ) );
+    item->hwid = SDL_strdup(namebuf);
+
     item->device_instance = SDL_GetNextJoystickInstanceID();
     if (SDL_joylist_tail == NULL) {
         SDL_joylist = SDL_joylist_tail = item;
@@ -391,6 +396,7 @@ MaybeRemoveDevice(const char *path)
 
             SDL_free(item->path);
             SDL_free(item->name);
+            SDL_free(item->hwid);
             SDL_free(item);
             return retval;
         }
@@ -458,6 +464,7 @@ static SDL_bool SteamControllerConnectedCallback(const char *name, SDL_JoystickG
     if ((item->path == NULL) || (item->name == NULL)) {
          SDL_free(item->path);
          SDL_free(item->name);
+         SDL_free(item->hwid);
          SDL_free(item);
          return SDL_FALSE;
     }
@@ -592,6 +599,12 @@ static SDL_JoystickGUID
 LINUX_JoystickGetDeviceGUID( int device_index )
 {
     return JoystickByDevIndex(device_index)->guid;
+}
+
+static const char *
+LINUX_JoystickGetDeviceHWID( int device_index )
+{
+    return JoystickByDevIndex(device_index)->hwid;
 }
 
 /* Function to perform the mapping from device index to the instance id for this index */
@@ -1089,6 +1102,7 @@ LINUX_JoystickQuit(void)
         next = item->next;
         SDL_free(item->path);
         SDL_free(item->name);
+        SDL_free(item->hwid);
         SDL_free(item);
     }
 
@@ -1118,6 +1132,7 @@ SDL_JoystickDriver SDL_LINUX_JoystickDriver =
     LINUX_JoystickUpdate,
     LINUX_JoystickClose,
     LINUX_JoystickQuit,
+    LINUX_JoystickGetDeviceHWID,
 };
 
 #endif /* SDL_JOYSTICK_LINUX */
