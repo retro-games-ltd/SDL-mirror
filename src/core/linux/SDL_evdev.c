@@ -396,6 +396,8 @@ SDL_EVDEV_translate_keycode(int keycode)
 
     if (keycode < SDL_arraysize(linux_scancode_table))
         scancode = linux_scancode_table[keycode];
+    if(keycode == KEY_CONTEXT_MENU)
+        scancode = SDL_SCANCODE_CONTEXT_MENU;
 
     /*
     if (scancode == SDL_SCANCODE_UNKNOWN) {
