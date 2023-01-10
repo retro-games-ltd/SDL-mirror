@@ -277,6 +277,7 @@ static const SDL_Keycode SDL_default_keymap[SDL_NUM_SCANCODES] = {
     SDLK_APP2,
     SDLK_AUDIOREWIND,
     SDLK_AUDIOFASTFORWARD,
+    SDLK_CONTEXT_MENU,
 };
 
 static const char *SDL_scancode_names[SDL_NUM_SCANCODES] = {
@@ -513,6 +514,7 @@ static const char *SDL_scancode_names[SDL_NUM_SCANCODES] = {
     "App2",
     "AudioRewind",
     "AudioFastForward",
+    "ContextMenu",
 };
 
 /* Taken from SDL_iconv() */

@@ -403,7 +403,7 @@ typedef enum
     /* @} *//* Usage page 0x0C (additional media keys) */
 
     /* Add any other keys here. */
-    SDL_SCANCODE_CONTEXT_MENU = 438,
+    SDL_SCANCODE_CONTEXT_MENU = 287,
 
     SDL_NUM_SCANCODES = 512 /**< not a key, just marks the number of scancodes
                                  for array bounds */
