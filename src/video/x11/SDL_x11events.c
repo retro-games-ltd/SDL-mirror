@@ -871,6 +871,7 @@ X11_DispatchEvent(_THIS)
 
 #ifdef DEBUG_XEVENTS
             printf("window %p: KeyPress (X11 keycode = 0x%X)\n", data, xevent.xkey.keycode);
+            printf("            converts to scancode = 0x%X)\n", videodata->key_layout[keycode] );
 #endif
 #if 1
             if (videodata->key_layout[keycode] == SDL_SCANCODE_UNKNOWN && keycode) {

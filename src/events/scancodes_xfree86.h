@@ -169,7 +169,8 @@ static const SDL_Scancode xfree86_scancode_table[] = {
     /*  136 */  SDL_SCANCODE_HELP,
     /*  137 */  SDL_SCANCODE_STOP,
     /*  138 */  SDL_SCANCODE_AGAIN,
-    /*  139 */  SDL_SCANCODE_UNKNOWN, /* PROPS */
+    // /*  139 */  SDL_SCANCODE_UNKNOWN, /* PROPS */
+    /*  139 */  SDL_SCANCODE_MENU,
     /*  140 */  SDL_SCANCODE_UNDO,
     /*  141 */  SDL_SCANCODE_UNKNOWN, /* FRONT */
     /*  142 */  SDL_SCANCODE_COPY,
@@ -320,7 +321,8 @@ static const SDL_Scancode xfree86_scancode_table2[] = {
     /* 136 */   SDL_SCANCODE_FIND,
     /* 137 */   SDL_SCANCODE_CUT,
     /* 138 */   SDL_SCANCODE_HELP,
-    /* 139 */   SDL_SCANCODE_UNKNOWN,   /* XF86MenuKB */
+    // /* 139 */   SDL_SCANCODE_UNKNOWN,   /* XF86MenuKB */
+    /*  139 */  SDL_SCANCODE_MENU,
     /* 140 */   SDL_SCANCODE_CALCULATOR,
     /* 141 */   SDL_SCANCODE_UNKNOWN,
     /* 142 */   SDL_SCANCODE_SLEEP,
