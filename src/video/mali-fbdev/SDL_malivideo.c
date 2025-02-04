@@ -87,6 +87,7 @@ MALI_Create()
     device->DestroyWindow = MALI_DestroyWindow;
     device->GetWindowWMInfo = MALI_GetWindowWMInfo;
 
+#ifdef MALI_ENABLED
     device->GL_LoadLibrary = MALI_GLES_LoadLibrary;
     device->GL_GetProcAddress = MALI_GLES_GetProcAddress;
     device->GL_UnloadLibrary = MALI_GLES_UnloadLibrary;
@@ -96,6 +97,7 @@ MALI_Create()
     device->GL_GetSwapInterval = MALI_GLES_GetSwapInterval;
     device->GL_SwapWindow = MALI_GLES_SwapWindow;
     device->GL_DeleteContext = MALI_GLES_DeleteContext;
+#endif
 
     device->PumpEvents = MALI_PumpEvents;
 
@@ -103,8 +105,8 @@ MALI_Create()
 }
 
 VideoBootStrap MALI_bootstrap = {
-    "mali",
-    "Mali EGL Video Driver",
+    "malifb",
+    "Mali (malifb) Video Driver",
     MALI_Available,
     MALI_Create
 };
@@ -237,6 +239,7 @@ MALI_CreateWindow(_THIS, SDL_Window * window)
     /* OpenGL ES is the law here */
     window->flags |= SDL_WINDOW_OPENGL;
 
+#ifdef MALI_ENABLED
     if (!_this->egl_data) {
         if (SDL_GL_LoadLibrary(NULL) < 0) {
             return -1;
@@ -248,6 +251,7 @@ MALI_CreateWindow(_THIS, SDL_Window * window)
         MALI_VideoQuit(_this);
         return SDL_SetError("mali-fbdev: Can't create EGL window surface");
     }
+#endif
 
     /* Setup reference to native window */
     windowdata->window = &displaydata->native_display;
@@ -270,10 +274,12 @@ MALI_DestroyWindow(_THIS, SDL_Window * window)
 
     data = window->driverdata;
     if (data) {
+#ifdef MALI_ENABLED
         if (data->egl_surface != EGL_NO_SURFACE) {
             SDL_EGL_DestroySurface(_this, data->egl_surface);
             data->egl_surface = EGL_NO_SURFACE;
         }
+#endif
         SDL_free(data);
     }
     window->driverdata = NULL;
